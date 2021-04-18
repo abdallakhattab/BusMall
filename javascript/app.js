@@ -3,7 +3,7 @@
 let right = document.getElementById('right');
 let middle = document.getElementById('middle');
 let left = document.getElementById('left');
-let productsNames = ['bag.jpg', 'banana.jpg', 'bathroom.jpg', 'boots.jpg', 'breakfast.jpg', 'bubblegum.jpg', 'chair.jpg', 'cthulhu.jpg', 'dog-duck.jpg', 'dragon.jpg', 'pen.jpg', 'pet-sweep.jpg', 'scissors.jpg', 'shark.jpg', 'sweep.png', 'tauntaun.jpg', 'unicorn.jpg', 'usb.gif', ' water-can.jpg', 'wine-glass.jpg'];
+let productsNames = ['bag.jpg', 'banana.jpg', 'bathroom.jpg', 'boots.jpg', 'breakfast.jpg', 'bubblegum.jpg', 'chair.jpg', 'cthulhu.jpg', 'dog-duck.jpg', 'dragon.jpg', 'pen.jpg', 'pet-sweep.jpg', 'scissors.jpg', 'shark.jpg', 'sweep.png', 'tauntaun.jpg', 'unicorn.jpg', 'usb.gif', 'water-can.jpg', 'wine-glass.jpg'];
 let productpics = [];
 let attempts = 0;
 let maxattempts = 25;
@@ -55,9 +55,8 @@ right.addEventListener('click', click);
 function click(event) {
   attempts++;
   if (attempts <= maxattempts) {
-    if (event.target.id === right) {
+    if (event.target.right === right) {
       Products.productpics[rightindex].vote++;
-      console.log(attempts);
     }
     else if (
       event.target.id === middle) {
@@ -65,20 +64,35 @@ function click(event) {
     }
     else if (event.target.id === left) {
       Products.productpics[leftindex].vote++;
-    } else {
-      //renderList();
     }
+    else {
+      renderList();
+    }
+    index();
   }
 }
+click();
 
 
 
-// function renderList() {
-//   let ul = document.getElementById('unList');
-//   for (let i = 0; i < productsNames.length; i++) {
-//     let li = document.createElement('li');
-//     ul.appendChild(li);
-//     li.textContent = `${productsNames[i].productName} it has ${productsNames[i].votes} Votes`;
-//   }
+function renderList() {
+  let ul = document.getElementById('unlist');
+  for (let i = 0; i < productsNames.length; i++) {
+    let li = document.createElement('li');
+    ul.appendChild(li);
+    li.textContent = `${productpics[i].productName} it has ${productpics[i].votes} Votes`;
+  }
 
-// }
+}
+function index() {
+  let rightindex = math();
+  let middleindex = math();
+  let leftindex = math();
+
+  while (rightindex === middleindex || rightindex === leftindex || middleindex === leftindex) {
+
+    middleindex = math();
+    rightindex = math();
+  }
+}
+index();
