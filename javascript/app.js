@@ -10,7 +10,7 @@ let maxattempts = 25;
 let arrayofindex = [];
 let arrayofvotes = [];
 let arrayofshow = [];
-
+setdata();
 //let stringlsvotes = JSON.parse(lsvotes);
 
 
@@ -78,7 +78,7 @@ function finish() {
 
   cont.removeEventListener('click', click);
   chart();
-  setdata();
+  
 }
 
 function click(event) {
