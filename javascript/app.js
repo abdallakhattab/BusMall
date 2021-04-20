@@ -7,6 +7,9 @@ let productsNames = ['bag.jpg', 'banana.jpg', 'bathroom.jpg', 'boots.jpg', 'brea
 let productpics = [];
 let attempts = 0;
 let maxattempts = 25;
+let arrayofindex = [];
+let arrayofvotes = [];
+let arrayofshow = [];
 
 
 function Products(productName, path) {
@@ -38,15 +41,22 @@ function renderthreeimages() {
   middleindex = math();
   leftindex = math();
 
-  while (rightindex === middleindex || rightindex === leftindex || middleindex === leftindex) {
+  while (rightindex === middleindex || rightindex === leftindex ||
+    middleindex === leftindex || arrayofindex.includes(rightindex) || arrayofindex.includes(middleindex) || arrayofindex.includes(leftindex)) {
 
     middleindex = math();
     rightindex = math();
+    leftindex = math();
+
   }
+  arrayofindex[0] = leftindex;
+  arrayofindex[1] = middleindex;
+  arrayofindex[2] = rightindex;
   middle.src = productpics[middleindex].path;
   left.src = productpics[leftindex].path;
   right.src = productpics[rightindex].path;
 }
+//console.log(arrayofindex);
 renderthreeimages();
 
 //left.setAttribute('src' , 'productpics[rightindex].path');
@@ -65,18 +75,25 @@ function finish() {
   renderList();
 
   cont.removeEventListener('click', click);
+  chart();
 }
 
 function click(event) {
   attempts++;
-  if (attempts < maxattempts) {
+  if (attempts <= maxattempts) {
     productpics[rightindex].show++;
     productpics[middleindex].show++;
     productpics[leftindex].show++;
+    //arrayofindex.push(rightindex, middleindex, leftindex);
+    console.log(arrayofindex);
+
+
     if (event.target.id === 'right') {
       productpics[rightindex].vote++;
+
       renderthreeimages();
-      console.log(productpics[rightindex].vote);
+      console.log(arrayofvotes);
+
     }
     else if (
       event.target.id === 'middle') {
@@ -87,8 +104,8 @@ function click(event) {
       productpics[leftindex].vote++;
       renderthreeimages();
     }
-
   }
+
   else {
     finish;
   }
@@ -98,10 +115,38 @@ function click(event) {
 function renderList() {
   let ul = document.getElementById('unlist');
   for (let i = 0; i < productsNames.length; i++) {
-
+    arrayofvotes.push(productpics[i].vote);
+    arrayofshow.push(productpics[i].show);
     let li = document.createElement('li');
     ul.appendChild(li);
     li.textContent = `${productpics[i].productName} it has ${productpics[i].vote} Votes and is has ${productpics[i].show} seens`;
   }
-
+console.log(arrayofvotes);
 }
+
+function chart(){
+  let ctx = document.getElementById('myChart');
+  let myChart = new Chart(ctx, { // its an instance
+    type: 'bar',
+    data: {
+      labels: productsNames, // ['goat away' ,  ... 'sassy goat']
+      datasets: [{
+        label: 'arrayofvotes',
+        data: arrayofvotes,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+        ],
+        borderWidth: 1
+      },{
+        label:'# of Shown',
+        data: arrayofshow,
+        backgroundColor:[
+          "rgb(192,192,192)"
+        ],
+        borderWidth: 1
+      }]
+    }
+  });
+}
+
+console.log(arrayofvotes);
