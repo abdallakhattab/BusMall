@@ -4,3 +4,20 @@ body main div img {
 
 
 }
+main section {
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    right: 30%;
+    top: 30%;
+}
+main div {
+    text-align: center;
+}
+main button {
+    
+ 
+    position: absolute;
+    bottom: 85%;
+    left: 15%;
+}
