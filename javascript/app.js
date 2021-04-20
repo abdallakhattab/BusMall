@@ -10,6 +10,8 @@ let maxattempts = 25;
 let arrayofindex = [];
 let arrayofvotes = [];
 let arrayofshow = [];
+setdata();
+//let stringlsvotes = JSON.parse(lsvotes);
 
 
 function Products(productName, path) {
@@ -24,7 +26,7 @@ function newProduct() {
   for (let i = 0; i < productsNames.length; i++) {
     new Products(productsNames[i], `../img/${productsNames[i]}`);
   }
-  console.log(productpics);
+  //console.log(productpics);
 }
 newProduct();
 
@@ -76,6 +78,7 @@ function finish() {
 
   cont.removeEventListener('click', click);
   chart();
+  
 }
 
 function click(event) {
@@ -117,31 +120,32 @@ function renderList() {
   for (let i = 0; i < productsNames.length; i++) {
     arrayofvotes.push(productpics[i].vote);
     arrayofshow.push(productpics[i].show);
+    getdata();
     let li = document.createElement('li');
     ul.appendChild(li);
     li.textContent = `${productpics[i].productName} it has ${productpics[i].vote} Votes and is has ${productpics[i].show} seens`;
   }
-console.log(arrayofvotes);
+  //console.log(arrayofvotes);
 }
 
 function chart(){
   let ctx = document.getElementById('myChart');
-  let myChart = new Chart(ctx, { // its an instance
+  let myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: productsNames, // ['goat away' ,  ... 'sassy goat']
+      labels: productsNames,
       datasets: [{
-        label: 'arrayofvotes',
+        label: 'no of votes',
         data: arrayofvotes,
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 99, 132, 1)',
         ],
         borderWidth: 1
       },{
-        label:'# of Shown',
+        label:'no. of Shown',
         data: arrayofshow,
         backgroundColor:[
-          "rgb(192,192,192)"
+          'rgb(30,36,195)'
         ],
         borderWidth: 1
       }]
@@ -149,4 +153,15 @@ function chart(){
   });
 }
 
-console.log(arrayofvotes);
+//console.log(arrayofvotes);
+//console.log(stringlsvotes);
+function setdata (){
+  let productpicsstr = JSON.stringify(productpics);
+  let lsvotes =localStorage.setItem('arrayofpics' , productpicsstr);
+  console.log(lsvotes);
+}
+function getdata(){
+  let data = localStorage.getItem('arrayofpics');
+  let lsdata = JSON.parse(data);
+  productpics = lsdata;
+}
