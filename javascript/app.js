@@ -10,7 +10,7 @@ let maxattempts = 25;
 let arrayofindex = [];
 let arrayofvotes = [];
 let arrayofshow = [];
-setdata();
+
 //let stringlsvotes = JSON.parse(lsvotes);
 
 
@@ -78,7 +78,6 @@ function finish() {
 
   cont.removeEventListener('click', click);
   chart();
-  
 }
 
 function click(event) {
@@ -90,28 +89,31 @@ function click(event) {
     //arrayofindex.push(rightindex, middleindex, leftindex);
     console.log(arrayofindex);
 
+    if (event.target.id !== 'cont'){
+      if (event.target.id === 'right') {
+        productpics[rightindex].vote++;
 
-    if (event.target.id === 'right') {
-      productpics[rightindex].vote++;
+        renderthreeimages();
+        console.log(arrayofvotes);
 
-      renderthreeimages();
-      console.log(arrayofvotes);
-
+      }
+      else if (
+        event.target.id === 'middle') {
+        productpics[middleindex].vote++;
+        renderthreeimages();
+      }
+      else if (event.target.id === 'left') {
+        productpics[leftindex].vote++;
+        renderthreeimages();
+      }
     }
-    else if (
-      event.target.id === 'middle') {
-      productpics[middleindex].vote++;
-      renderthreeimages();
-    }
-    else if (event.target.id === 'left') {
-      productpics[leftindex].vote++;
-      renderthreeimages();
-    }
+    setdata();
   }
-
   else {
     finish;
+
   }
+
 }
 
 
@@ -120,7 +122,6 @@ function renderList() {
   for (let i = 0; i < productsNames.length; i++) {
     arrayofvotes.push(productpics[i].vote);
     arrayofshow.push(productpics[i].show);
-    getdata();
     let li = document.createElement('li');
     ul.appendChild(li);
     li.textContent = `${productpics[i].productName} it has ${productpics[i].vote} Votes and is has ${productpics[i].show} seens`;
@@ -156,12 +157,18 @@ function chart(){
 //console.log(arrayofvotes);
 //console.log(stringlsvotes);
 function setdata (){
+  console.log(productpics);
   let productpicsstr = JSON.stringify(productpics);
-  let lsvotes =localStorage.setItem('arrayofpics' , productpicsstr);
-  console.log(lsvotes);
+  localStorage.setItem('arrayofpics' , productpicsstr);
+
 }
 function getdata(){
   let data = localStorage.getItem('arrayofpics');
-  let lsdata = JSON.parse(data);
-  productpics = lsdata;
+  
+  if ( data !== null){
+    let lsdata = JSON.parse(data);
+    productpics = lsdata;
+  }
 }
+
+getdata();
